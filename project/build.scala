@@ -9,7 +9,7 @@ object InfluxBuild extends Build {
   lazy val core = Project("core", file("core")) settings(
       name := "influxdb-scala-core",
       organization := org,
-      version := "0.6-SNAPSHOT",
+      version := "0.8-SNAPSHOT",
       scalaVersion := "2.10.3",
       crossScalaVersions := Seq("2.10.3","2.11.0-M7"),
       libraryDependencies ++= Seq(
@@ -25,7 +25,7 @@ object InfluxBuild extends Build {
   lazy val standalone = Project("standalone", file("standalone")) dependsOn(core) settings(
       name := "influxdb-scala-standalone",
       organization := org,
-      version := "0.6-SNAPSHOT",
+      version := "0.8-SNAPSHOT",
       scalaVersion := "2.10.3",
       crossScalaVersions := Seq("2.10.3","2.11.0-M7"),
       mainClass := Some("TestApp"),

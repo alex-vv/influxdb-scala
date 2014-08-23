@@ -47,17 +47,17 @@ trait Json4sJsonConverterComponent extends JsonConverterComponent {
   def jsonToListOfShards(response: String): List[Shard] = {
     val json = JsonParser.parse(response)
 
-    def extractShard(jsValue: JValue, shortTerm: Boolean) =
+    def extractShard(jsValue: JValue) =
       Shard(
         id = (jsValue \ "id").extract[Int],
         serverIds = (jsValue \ "serverIds").extract[List[Int]],
         startTime = new Date((jsValue \ "startTime").extract[Long] * 1000),  // time is in seconds since Epoch, convert it to millis
         endTime = new Date((jsValue \ "endTime").extract[Long] * 1000),
-        shortTerm = shortTerm
+        database = (jsValue \ "database").extract[String],
+        spaceName = (jsValue \ "spaceName").extract[String]
       )
 
-    (json \ "longTerm").children.map(value => extractShard(value, shortTerm = false)) ++
-    (json \ "shortTerm").children.map(value => extractShard(value, shortTerm = true))
+    json.children.map(extractShard)
   }
 
   // convert a json response to an instance of QueryResult. May fail, hence the Try
